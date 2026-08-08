@@ -10,7 +10,10 @@ function applyElapsed(ms){
   const rep = {away:ms, motas:0, autofed:0, poops:0, lvls:0, evolved:false, capped: ms>OFFLINE_CAP};
   const STEPS = 24, sdt = dt/STEPS;
   for(let i=0;i<STEPS;i++){
-    const stepAt=now-dt+(i+0.5)*sdt;
+    const stepStart=now-dt+i*sdt, stepEnd=stepStart+sdt;
+    const feederMult=vaultWindowMultiplier('feeder',stepStart,stepEnd,0.85);
+    const careMult=vaultWindowMultiplier('care',stepStart,stepEnd,0.85);
+    const yieldMult=vaultWindowMultiplier('yield',stepStart,stepEnd,1.10);
     for(const p of G.pets){
       if(p.exped){
         if(now >= p.exped.until && i===STEPS-1) resolveExpedition(p);
@@ -18,8 +21,8 @@ function applyElapsed(ms){
       }
       if(p.stage===STAGES.EGG) continue;
       const drowse = p.sleeping ? 0.3 : 1;
-      p.hunger = Math.max(0, p.hunger - hungerRate(p,stepAt)*sdt*drowse);
-      p.happy  = Math.max(0, p.happy - happyDecayRate(p,stepAt)*sdt*drowse);
+      p.hunger = Math.max(0, p.hunger - hungerBaseRate(p)*feederMult*sdt*drowse);
+      p.happy  = Math.max(0, p.happy - happyDecayBaseRate(p)*careMult*sdt*drowse);
       if(p.sleeping){
         p.energy = Math.min(100, p.energy + sleepRegen(p)*sdt);
         if(p.energy>=100) p.sleeping=false;
@@ -45,7 +48,7 @@ function applyElapsed(ms){
           while(p.xp >= xpNeed(p.level) && p.level<lg){ p.xp -= xpNeed(p.level); p.level++; rep.lvls++; }
         }
       }
-      const gain = petRate(p) * (sdt/1000) * 0.5 * (vaultActive('yield',stepAt)?1.10:1);
+      const gain = petRate(p) * (sdt/1000) * 0.5 * yieldMult;
       G.motas += gain; G.totalMotas += gain; rep.motas += gain;
       p.hygiene = Math.max(0, Math.min(100, p.hygiene - G.poops.length*ratePerMs(3)*hygMult(p)*sdt + (G.poops.length===0? ratePerMs(24)*sdt:0)));
       if(p.hunger<=0 && !p.hungerZeroSince) p.hungerZeroSince = now - dt*0.4;
