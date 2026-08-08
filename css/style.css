@@ -29,8 +29,9 @@ html,body{
   z-index:-1;
   pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(4,7,20,.62),rgba(4,7,20,.1) 33%,rgba(4,7,20,.1) 67%,rgba(4,7,20,.62)),
-    radial-gradient(circle at 50% 45%,transparent 25%,rgba(3,5,14,.38) 100%);
+    linear-gradient(90deg,rgba(4,7,20,.72),rgba(4,7,20,.08) 34%,rgba(4,7,20,.08) 66%,rgba(4,7,20,.72)),
+    repeating-linear-gradient(135deg,rgba(243,186,47,.028) 0 2px,transparent 2px 18px),
+    radial-gradient(circle at 50% 45%,transparent 24%,rgba(3,5,14,.42) 100%);
 }
 canvas{
   display:block;
@@ -53,12 +54,170 @@ canvas{
   max-width:100%;
   max-height:100%;
   background:#11172c;
-  box-shadow:0 0 0 2px rgba(255,255,255,.08),0 0 56px rgba(0,0,0,.58);
+  box-shadow:0 0 0 2px rgba(255,217,74,.28),0 0 56px rgba(0,0,0,.58);
 }
+
+/* Full-viewport entry scene. The portrait game remains untouched behind it. */
+.entry-gate{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  overflow:hidden;
+  background:#75c5df;
+  opacity:1;
+  transition:opacity .32s steps(5,end);
+}
+.entry-gate.is-leaving{opacity:0;pointer-events:none}
+.entry-gate[hidden],.entry-profile[hidden]{display:none!important}
+.entry-scene{position:absolute;inset:0;width:100%;height:100%}
+.entry-panel{
+  position:absolute;
+  left:auto;
+  right:clamp(32px,7vw,110px);
+  top:50%;
+  bottom:auto;
+  width:min(460px,42vw);
+  transform:translateY(-50%);
+  padding:34px 34px 28px;
+  border:3px solid #1a1428;
+  background:#f6efe0;
+  color:#1a1428;
+  box-shadow:0 7px 0 rgba(26,20,40,.45),inset 0 0 0 2px #fff8e8;
+  font-family:"Courier New",ui-monospace,monospace;
+  text-align:center;
+}
+.entry-panel::after{
+  content:"";
+  position:absolute;
+  left:3px;right:3px;bottom:3px;height:5px;
+  background:#7ac74f;
+}
+.entry-chip{
+  position:absolute;
+  left:50%;top:-16px;
+  transform:translateX(-50%);
+  padding:7px 18px 6px;
+  border:3px solid #1a1428;
+  background:#3b3552;
+  color:#ffd94a;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  white-space:nowrap;
+}
+.entry-panel h1{margin:0;font-size:clamp(30px,5vw,54px);line-height:1;letter-spacing:3px;color:#1a1428;text-shadow:3px 3px 0 #ffd94a}
+.entry-tagline{margin:10px 0 22px;font-size:12px;font-weight:700;letter-spacing:1.4px;color:#6f6878}
+.entry-loading-copy{display:flex;justify-content:space-between;gap:16px;margin-bottom:8px;font-size:12px;font-weight:900;letter-spacing:.8px}
+.entry-track{height:18px;border:3px solid #1a1428;background:#d0c8b0;padding:2px;text-align:left}
+.entry-track span{display:block;width:0;height:100%;background:#ffd94a;transition:width .12s steps(5,end)}
+.entry-profile label{display:block;margin-bottom:8px;font-size:13px;font-weight:900;letter-spacing:1.2px;text-align:left}
+.entry-profile input{
+  display:block;
+  width:100%;
+  min-height:48px;
+  border:3px solid #1a1428;
+  border-radius:0;
+  outline:0;
+  background:#fff8e8;
+  color:#1a1428;
+  padding:9px 12px;
+  font:900 17px/1 "Courier New",ui-monospace,monospace;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  user-select:text;
+}
+.entry-profile input:focus{box-shadow:inset 0 -5px 0 #ffd94a}
+.entry-profile input[aria-invalid="true"]{box-shadow:inset 0 -5px 0 #e8574c}
+.entry-profile p{min-height:14px;margin:8px 0 12px;color:#6f6878;font-size:10px;font-weight:700;letter-spacing:.5px}
+.entry-profile button{
+  width:100%;
+  min-height:50px;
+  border:3px solid #1a1428;
+  border-radius:0;
+  background:#ffd94a;
+  color:#1a1428;
+  box-shadow:inset 0 -6px 0 #f0a04b;
+  font:900 18px/1 "Courier New",ui-monospace,monospace;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+.entry-profile button:disabled{background:#d0c8b0;box-shadow:inset 0 -6px 0 #aaa397;color:#6f6878;cursor:not-allowed}
+.entry-profile button:not(:disabled):active{transform:translate(2px,2px)}
+body.is-entry .chain-dock{display:none}
+/* Visual chrome is rendered by entry-scene with the real bitmap font.
+   These DOM controls remain only as accessible keyboard/touch hitboxes. */
+.entry-panel{position:fixed!important;inset:0!important;width:auto!important;height:auto!important;transform:none!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;pointer-events:none}
+.entry-panel::after{display:none!important}
+.entry-chip,.entry-panel h1,.entry-tagline,.entry-loading,.entry-profile label,.entry-profile p{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.entry-profile{position:fixed;inset:0;pointer-events:none}
+.entry-profile input,.entry-profile button{position:fixed!important;margin:0!important;padding:0!important;min-height:0!important;border:0!important;background:transparent!important;box-shadow:none!important;color:transparent!important;caret-color:transparent!important;opacity:.001!important;pointer-events:auto!important;font-size:16px!important}
+.entry-profile input:focus,.entry-profile input[aria-invalid="true"],.entry-profile button:not(:disabled):active{box-shadow:none!important;transform:none!important}
+
+/* The external controls are drawn on a tiny canvas with the game's own
+   3x5 bitmap font. Transparent semantic hit areas sit above that artwork. */
+.chain-dock{
+  position:fixed;
+  z-index:8;
+  right:clamp(18px,3vw,52px);
+  top:50%;
+  width:244px;
+  height:136px;
+  transform:translateY(-50%);
+  filter:drop-shadow(6px 7px 0 rgba(26,20,40,.28));
+}
+#chain-dock-art{
+  position:absolute;
+  inset:0;
+  width:244px;
+  height:136px;
+  pointer-events:none;
+}
+.dock-hit{
+  position:absolute;
+  z-index:1;
+  display:block;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:transparent;
+  cursor:pointer;
+  text-decoration:none;
+}
+.dock-hit-vault{left:0;top:46px;width:244px;height:42px}
+.dock-hit-x{left:0;top:94px;width:244px;height:42px}
+.dock-hit-x.is-disabled{cursor:not-allowed}
+.dock-hit:focus-visible{outline:3px solid #ffffff;outline-offset:2px}
+.dock-hit-vault:active{transform:translate(2px,2px)}
+
 @media (orientation:portrait){
   #ambient{filter:blur(12px) saturate(1.25) brightness(.66)}
-  #cv{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 30px rgba(0,0,0,.5)}
+  #cv{box-shadow:0 0 0 1px rgba(255,217,74,.3),0 0 30px rgba(0,0,0,.5)}
+}
+@media (max-width:760px){
+  .entry-panel{bottom:max(18px,env(safe-area-inset-bottom));width:calc(100vw - 20px);padding:30px 18px 22px}
+  .entry-panel h1{font-size:32px;letter-spacing:2px}
+  .entry-tagline{margin:8px 0 16px;font-size:10px}
+  .entry-chip{font-size:11px}
+  .entry-profile input{min-height:46px;font-size:16px}
+  .entry-profile button{min-height:48px}
+  .chain-dock{
+    top:auto;
+    right:max(10px,env(safe-area-inset-right));
+    bottom:max(10px,env(safe-area-inset-bottom));
+    width:244px;
+    height:52px;
+    transform:none;
+    filter:drop-shadow(4px 4px 0 rgba(26,20,40,.3));
+  }
+  #chain-dock-art{width:244px;height:52px}
+  .dock-hit-vault{left:54px;top:0;width:134px;height:52px}
+  .dock-hit-x{left:194px;top:0;width:50px;height:52px}
+}
+@media (max-height:620px) and (orientation:landscape){
+  .chain-dock{right:8px}
 }
 @media (prefers-reduced-motion:reduce){
   #ambient{filter:saturate(1.15) brightness(.58)}
+  .dock-hit-vault:active{transform:none}
 }

@@ -3,7 +3,7 @@
    BITXO — data/content: tienda, logros, expediciones, reliquias, comida, juguetes y enemigos
    ========================================================= */
 const SHOP = [
- {id:'cosecha', name:'COSECHA', desc:'+1 POR MOTA',    base:15,  growth:1.65, max:50},
+ {id:'cosecha', name:'COSECHA', desc:'+1 VP POR NIVEL',base:15,  growth:1.65, max:50},
  {id:'aura',    name:'AURA',    desc:'+0.25/S PASIVO', base:25,  growth:1.7,  max:50},
  {id:'iman',    name:'IMAN',    desc:'AUTO-RECOGE',    base:150, growth:1,    max:1},
  {id:'comedero',name:'COMEDERO',desc:'COMEN SOLOS',    base:120, growth:2.4,  max:3},
@@ -45,7 +45,7 @@ const EXPEDS = [
  {id:'trueno',name:'PICO DEL TRUENO',mins:300, motas:420, xp:95,  relic:0.45, egg:'voltio', eggP:0.25}
 ];
 const RELICS = [
- {id:'trebol',    name:'TREBOL DORADO',   desc:'+5% MOTAS'},
+ {id:'trebol',    name:'TREBOL DORADO',   desc:'+5% VAULT POINTS'},
  {id:'campanilla',name:'CAMPANILLA',      desc:'+1 POR CHISPA'},
  {id:'pluma',     name:'PLUMA ROJA',      desc:'+10% ATAQUE'},
  {id:'caracola',  name:'CARACOLA',        desc:'PILAS DURAN +10%'},
@@ -84,9 +84,9 @@ const TOYS = [
    lleva los juguetes de jugar; LA HUERTA (tras una expedición) se lleva
    los de cuidado. Los bitxos JOVEN+ pueden mudarse (en brazos, máx. 2). --- */
 const ZONES = {
-  prado:  {name:'EL PRADO'},
-  parque: {name:'EL PARQUE', cost:500, toysNeed:2},
-  huerta: {name:'LA HUERTA', cost:800}
+  prado:  {name:'VAULT YARD'},
+    parque: {name:'BNB FORGE', cost:500, toysNeed:2},
+    huerta: {name:'RESERVE LAB', cost:800}
 };
 /* de izquierda a derecha en el mundo */
 const ZONE_ORDER = ['huerta','prado','parque'];
@@ -180,7 +180,7 @@ const DISCOS = [
 const COST_SALTA = 250;
 /* sala de juegos: catálogo con desbloqueo y qué entrena cada uno */
 const MINIGAMES = [
- {id:'mgCatch', name:'MOTAS', glyph:'✦', col:'#8a6a10', sub:'REFLEJOS'},
+ {id:'mgCatch', name:'VP RUSH', glyph:'✦', col:'#8a6a10', sub:'REFLEJOS'},
  {id:'mgDance', name:'BAILE', glyph:'♥', col:'#e2574c', sub:'RITMO'},
  {id:'mgSimon', name:'SIMON', glyph:'?', col:'#6db1ff', sub:'+DEF'},
  {id:'mgJump',  name:'SALTA', glyph:'>', col:'#5ec8d8', sub:'+VEL', cost:250, gkey:'salta'},

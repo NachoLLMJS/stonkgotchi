@@ -8,7 +8,7 @@
 const MENU_PARENT = {
   stats:'main', album:'stats', ach:'stats', relics:'stats', beast:'stats',
   ascendConfirm:'stats', parqueConfirm:'main', huertaConfirm:'main', travelPick:'main',
-  shop:'main', feed:'main', play:'main',
+  shop:'main', vault:'main', feed:'main', play:'main',
   quests:'main', buho:'main', discos:'games',
   games:'play', exped:'play', tower:'play', legacy:'main',
   diary:'stats', rename:'stats'
@@ -17,7 +17,7 @@ const MENU_DRAW = {
   stats:drawStats, album:drawAlbum, ach:drawAch, relics:drawRelics,
   exped:drawExped, ascendConfirm:drawAscendConfirm, parqueConfirm:drawParqueConfirm,
   huertaConfirm:drawHuertaConfirm, travelPick:drawTravelPick,
-  shop:drawShop, feed:drawFeedMenu, play:drawPlayMenu,
+  shop:drawShop, vault:drawStockVault, feed:drawFeedMenu, play:drawPlayMenu,
   quests:drawQuests, buho:drawBuhoShop,
   discos:drawDiscos, evotree:drawEvoTree,
   beast:drawBeast, games:drawGames,
@@ -153,6 +153,8 @@ function normalizeSave(g){
   if(!g.zone || (g.zone!=='prado' && !g.zonesOpen[g.zone])) g.zone = 'prado';
   g.combos3 = g.combos3||0; g.parries = g.parries||0; g.harvests = g.harvests||0;
   g.items = g.items||[]; g.criaNextAt = g.criaNextAt||0; g.slowRing = !!g.slowRing;
+  g.profileName = window.STONK_ENTRY ? STONK_ENTRY.cleanName(g.profileName) : '';
+  g.stockVault = g.stockVault||{version:1,locks:[]};
   g.poops = g.poops||[];
   for(const pp of g.poops) pp.zone = pp.zone||'prado';
   for(const p of g.pets){
@@ -190,6 +192,9 @@ function normalizeSave(g){
     saveGame();
   }
   checkDailyGift();
+  /* Entrada fullscreen: el juego queda listo detrás hasta guardar perfil y jugar. */
+  if(window.STONK_ENTRY) window.STONK_ENTRY.start();
+  else document.body.classList.remove('is-entry');
   /* Copia local editable: sin sondeo de red ni service worker. */
   try{ localStorage.setItem('bitxo-ver', GAME_VERSION); }catch(e){}
   document.addEventListener('visibilitychange', ()=>{ if(document.hidden) saveGame(); });

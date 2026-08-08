@@ -8,7 +8,7 @@ const BTNS = [
   {ic:'play', label:'JUGAR', fn:()=>{ if(eggGuard()||awayGuard())return; seeSelected(); UI.mode='play'; }},
   {ic:'clean',label:'LIMPIAR', fn:()=>{ doClean(); }},
   {ic:'sleep',label:'LUZ', fn:()=>{ if(eggGuard()||awayGuard())return; seeSelected(); doSleepToggle(); }},
-  {ic:'shop', label:'TIENDA', fn:()=>{ UI.mode='shop'; if(!G.hints.shop){G.hints.shop=true;} }},
+  {ic:'shop', label:'MARKET', fn:()=>{ UI.mode='shop'; if(!G.hints.shop){G.hints.shop=true;} }},
   {ic:'stats',label:'DATOS', fn:()=>{ UI.mode='stats'; }}
 ];
 function eggGuard(){ if(AP().stage===STAGES.EGG){ toast('AUN ES UN HUEVO'); return true; } return false; }
@@ -151,6 +151,17 @@ function handleTap(x,y){
      Math.abs(x-UI.closeAt.x)<=8 && Math.abs(y-UI.closeAt.y)<=8){
     UI.mode = MENU_PARENT[UI.mode];
     SFX.tap(); vibrate(10);
+    return;
+  }
+  if(UI.mode==='vault'){
+    const ys=[69,106,143];
+    for(let i=0;i<ys.length;i++){
+      if(x>=9 && x<=151 && y>=ys[i] && y<ys[i]+34){
+        window.STONK_VAULT.tapModule(['feeder','care','yield'][i]);
+        return;
+      }
+    }
+    if(x<4 || x>156 || y<34 || y>224){ UI.mode='main'; SFX.tap(); }
     return;
   }
   if(UI.mode==='ascendConfirm'){

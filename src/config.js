@@ -21,3 +21,11 @@ const COST_MEAL = 5, COST_SNACK = 8;
 /* versión desplegada: la estampa tools/stamp.sh en cada publicación */
 const GAME_VERSION = '20260704-2200';
 let UPDATE_READY = false;
+
+/* STONKGOTCHI local integration layer. Social stays disabled until the
+   project has an official account; Vault assets remain local VP only. */
+const STONKGOTCHI_CONFIG = Object.freeze({
+  socialXUrl: '',
+  vaultLockMs: 7*24*60*60*1000
+});
+window.STONK_VAULT = { isActive:()=>false };

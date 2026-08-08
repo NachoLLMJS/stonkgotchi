@@ -3,7 +3,7 @@
    BITXO — data/species: líneas, formas, caracteres y favoritas
    ========================================================= */
 const LINES = {
- pradera:{name:'PRADERA', eggShell:'#f6efe0', eggSpot:'#7ac74f', bonus:'+15% MOTAS', hint:'DISPONIBLE',
+ pradera:{name:'PRADERA', eggShell:'#f6efe0', eggSpot:'#7ac74f', bonus:'+15% VAULT POINTS', hint:'DISPONIBLE',
    unlock:k=>true,
    w:30, names:{babyA:'MIRU',babyB:'PIPO',childA:'KIPO',childB:'CHUMBO',adultA:'RAYON',adultB:'GORDON',adultC:'BRINCO',adultD:'MOFLE',adultS:'FLORAN'}},
  brasa:{name:'BRASA', eggShell:'#f8e0d0', eggSpot:'#e8574c', bonus:'ENTRENO X2', hint:'1 ASCENSO',
@@ -34,7 +34,7 @@ const TRAITS = {
   VALIENTE:'PEGA UN 25% MAS',
   DORMILON:'DUERME DE LUJO',
   JUGUETON:'GANA MAS XP JUGANDO',
-  TIMIDO:  '+10% MOTAS EN CALMA',
+  TIMIDO:  '+10% VP EN CALMA',
   CURIOSO: 'APRENDE X2 DE CHISPAS'
 };
 const TRAIT_KEYS = Object.keys(TRAITS);

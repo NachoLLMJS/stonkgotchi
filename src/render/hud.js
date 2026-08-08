@@ -79,9 +79,9 @@ function drawHUD(t){
   if(G.motas > UI.lastMotas+0.5){ UI.coinT = performance.now(); }
   UI.lastMotas = G.motas;
   const shiny = performance.now()-(UI.coinT||0) < 220;
-  drawTextC('✦'+fmt(G.motas), 92, 3, shiny ? '#fff8d0' : '#ffd94a');
+  drawTextC('VP '+fmt(G.motas), 92, 3, shiny ? '#fff8d0' : '#f3ba2f');
   const boosted = Date.now() < G.boostUntil;
-  drawTextC('+'+motaRate().toFixed(1)+'/S'+(boosted?'!':''), 92, 11, boosted?'#7ac74f':'rgba(255,255,255,0.65)');
+  drawTextC('+'+motaRate().toFixed(1)+' VP/S'+(boosted?'!':''), 92, 11, boosted?'#7ac74f':'rgba(255,255,255,0.65)');
   /* altavoz con nivel */
   px(146,5,2,4,'#d8d4e8'); px(148,4,2,6,'#d8d4e8'); px(150,3,1,8,'#d8d4e8');
   const snd = G.sound===undefined ? 2 : G.sound;
@@ -196,7 +196,7 @@ function drawStats(){
   line('JUEGOS', p.gamesWon);
   line('FALLOS', p.mistakes);
   line('AMISTAD', '♥'+(G.bond||0)+' (+'+Math.min(10,Math.round((G.bond||0)*0.2))+'%)');
-  line('MOTAS TOT.', '✦'+fmt(G.totalMotas));
+  line('VP TOTALES', fmt(G.totalMotas));
   line('ESTRELLAS', '★'+G.stars+' (+'+ (G.stars*10) +'%)');
   y+=2;
   const bar=(label,val,col)=>{
@@ -243,8 +243,8 @@ function drawStats(){
 
 function drawShop(){
   panel(4,38,152,178);
-  titleChip(64, 42, 'TIENDA');
-  drawText('✦'+fmt(G.motas), 116, 42, '#8a6a10');
+  titleChip(64, 42, 'VAULT MARKET');
+  drawText('VP '+fmt(G.motas), 112, 42, '#8a6a10');
   const tab = UI.shopTab||0;
   const tabBtn = (x,label,on)=>{
     px(x,50,35,11, on?'#ffd94a':'#d8d0ba');
@@ -254,7 +254,7 @@ function drawShop(){
   tabBtn(8,'MEJORA',tab===0);
   tabBtn(45,'JUGUETE',tab===1);
   tabBtn(82,'GORROS',tab===2);
-  tabBtn(119,'PRADO',tab===3);
+  tabBtn(119,'BASE',tab===3);
   /* lista con scroll: se desliza con el dedo y se recorta al panel */
   const sc = Math.min(UI.shopScroll||0, shopMaxScroll());
   UI.shopScroll = sc;
@@ -351,8 +351,51 @@ function drawShop(){
     px(152, by, 2, bh, 'rgba(26,20,40,0.4)');
   }
   if(tab===2) drawTextC('TOCA PARA PONER O QUITAR', 80, 210, 'rgba(26,20,40,0.45)');
-  if(tab===3) drawTextC('TU PRADO, A TU GUSTO', 80, 210, 'rgba(26,20,40,0.45)');
+  if(tab===3) drawTextC('PERSONALIZA TU VAULT YARD', 80, 210, 'rgba(26,20,40,0.45)');
   drawTextC('TOCA FUERA PARA SALIR', 80, 222, 'rgba(26,20,40,0.55)');
+}
+
+function drawStockVault(){
+  panel(4,34,152,190);
+  titleChip(80,40,'STOCKS VAULT');
+  drawText('VP '+fmt(G.motas),10,51,'#8a6a10');
+  drawText('LOCK 7 DIAS',106,51,'#3b3552');
+  drawTextC('SIMULACION LOCAL - SIN WALLET',80,60,'rgba(26,20,40,0.55)');
+
+  const api=window.STONK_VAULT;
+  const rows=api && api.view ? api.view() : [];
+  if(rows.length!==3){ drawTextC('CARGANDO STOCKS VAULT...',80,116,K); return; }
+  const ys=[69,106,143];
+  for(let i=0;i<rows.length;i++){
+    const row=rows[i], y=ys[i];
+    const afford=G.motas>=row.amount;
+    card(9,y,142,34,!row.lock&&!afford);
+    if(row.active) px(11,y+2,138,30,'#fff3d0');
+    if(row.claimable) px(11,y+2,138,30,'#d8ecd0');
+    px(11,y+30,138,2,row.accent);
+    px(14,y+6,13,13,'#3b3552');
+    px(15,y+7,11,11,row.claimable?'#7ac74f':(row.active?'#ffd94a':'#e8e0c8'));
+    drawText(row.name[0],19,y+10,K);
+    drawText(row.name,32,y+4,K);
+    drawText(row.effect,32,y+12,'rgba(26,20,40,0.58)');
+    if(row.claimable){
+      drawText('CLAIM',112,y+4,'#3a7048');
+      drawText(row.amount+' VP',112,y+12,'#3a7048');
+      drawText('TOCA PARA RECUPERAR PRINCIPAL',32,y+22,'#3a7048');
+    }else if(row.active){
+      drawText('ACTIVO',108,y+4,'#8a6a10');
+      drawText(api.remainingText(row.lock.unlockAt),112,y+12,'#8a6a10');
+      drawText('PRINCIPAL BLOQUEADO',32,y+22,'rgba(26,20,40,0.52)');
+    }else{
+      drawText('LOCK',116,y+4,afford?'#8a6a10':'#a03030');
+      drawText(row.amount+' VP',112,y+12,afford?'#8a6a10':'#a03030');
+      drawText(afford?'TOCA PARA BLOQUEAR':'FALTAN VAULT POINTS',32,y+22,afford?'rgba(26,20,40,0.52)':'#a03030');
+    }
+  }
+  drawTextC('BNB · BSTOCKS · STONK: PROXIMAMENTE',80,183,'rgba(26,20,40,0.48)');
+  drawTextC('SIN FONDOS REALES NI CONTRATOS',80,193,'#a03030');
+  drawTextC('PRINCIPAL COMPLETO AL VENCER',80,203,'#3a7048');
+  drawTextC('TOCA UN MODULO',80,214,'rgba(26,20,40,0.45)');
 }
 
 function drawAscendConfirm(){
@@ -469,7 +512,7 @@ function drawPlayMenu(){
 /* ---------------- LA TORRE DEL PRADO ---------------- */
 function drawTower(){
   panel(14,56,132,158);
-  titleChip(80, 62, 'LA TORRE DEL PRADO');
+  titleChip(80, 62, 'VAULT TOWER');
   /* la torre con pisos iluminados */
   const floor = G.tower ? G.tower.floor : 0;
   for(let f=0; f<5; f++){
@@ -486,7 +529,7 @@ function drawTower(){
     drawText('LA VIDA NO SE CURA', 62, 102, 'rgba(26,20,40,0.6)');
     drawText('(SOLO UN RESPIRO', 62, 110, 'rgba(26,20,40,0.6)');
     drawText('ENTRE PISOS)', 62, 118, 'rgba(26,20,40,0.6)');
-    drawText('PISO 3: MOTAS', 62, 132, '#8a6a10');
+    drawText('PISO 3: VAULT POINTS', 62, 132, '#8a6a10');
     drawText('PISO 5: RELIQUIA', 62, 140, '#8a6a10');
     drawText('Y EL LAUREL', 62, 148, '#8a6a10');
     const cool = Date.now() < (G.towerNextAt||0);
@@ -938,7 +981,7 @@ function drawRename(){
 /* ---------------- DIARIO ---------------- */
 function drawDiary(){
   panel(6,28,148,216);
-  titleChip(80, 33, 'DIARIO DEL PRADO');
+  titleChip(80, 33, 'VAULT YARD LOG');
   const D = G.diary||[];
   if(D.length===0){
     drawTextC('AUN NO HAY RECUERDOS', 80, 110, 'rgba(26,20,40,0.55)');

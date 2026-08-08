@@ -106,6 +106,7 @@ function drawScene(t){
   for(let x=4;x<160;x+=10){ const hh = 3+Math.round(2*Math.sin(x/12+2)); px(x,116-hh,10,hh,S.hill); }
   px(0,124,160,72,S.grass);
   for(let x=0;x<160;x+=6){ px(x,124,3,2,S.grass2); }
+  if(G.zone==='prado') drawBnbVaultFacility(t, S);
   /* franja 196-199: única zona que nadie más repinta por frame —
      sin esto acumula restos de paneles y del atenuado modal */
   px(0,196,160,4,K);
@@ -189,6 +190,36 @@ function drawScene(t){
     }
   }
   drawZoneEdges(t);
+}
+
+/* ---------------- STONKGOTCHI: BNB VAULT HABITAT ---------------- */
+function drawBnbVaultFacility(t, S){
+  const gold = '#f3ba2f', glow = Math.floor(t/420)%2 ? '#ffd86a' : '#d99b12';
+  /* compact facility on the horizon: scenery, never a replacement for pets */
+  px(57,102,46,27,'#0b0e11');
+  px(60,98,40,4,'#242a33');
+  px(64,95,32,3,'#f3ba2f');
+  px(55,106,4,23,'#1b2029'); px(101,106,4,23,'#1b2029');
+  px(57,126,46,3,'#07090c');
+  /* segmented vault door */
+  px(70,106,20,22,'#343b45');
+  px(72,108,16,18,'#151a21');
+  px(74,110,12,14,'#272e37');
+  px(79,113,2,8,gold); px(76,116,8,2,gold);
+  px(78,114,4,6,'#0b0e11');
+  /* BNB block-network mark above the lock */
+  px(78,99,4,4,glow); px(79,98,2,6,glow); px(76,100,2,2,gold); px(82,100,2,2,gold);
+  /* strategy status lamps mirror active local modules */
+  const mods=['feeder','care','yield'];
+  for(let i=0;i<3;i++){
+    const on = window.STONK_VAULT && window.STONK_VAULT.isActive(mods[i]);
+    px(62+i*18,123,3,3,on?glow:'#505761');
+    if(on && Math.floor(t/260+i)%2===0) px(63+i*18,121,1,1,'#fff3bd');
+  }
+  /* chain conduits into the landscape */
+  px(46,112,11,2,'#3a414c'); px(103,112,11,2,'#3a414c');
+  px(44,110,3,6,gold); px(113,110,3,6,gold);
+  drawTextC('STOCKS VAULT',80,88,'#f3ba2f');
 }
 
 /* ---------------- EL PARQUE: escenografía propia ---------------- */

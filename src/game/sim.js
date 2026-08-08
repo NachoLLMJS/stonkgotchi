@@ -326,7 +326,7 @@ function liveUpdate(dtMs){
   if(sparkleTimer > spawnEvery && UI.sparkles.length < 5 && UI.mode==='main'){
     sparkleTimer = 0;
     UI.sparkles.push({x:20+Math.random()*120, y:130+Math.random()*50, born:now, t:Math.random()*7, zone:G.zone});
-    if(!G.hints.sparkle){ G.hints.sparkle=true; toast('¡TOCA LAS MOTAS ✦!', 2600); }
+    if(!G.hints.sparkle){ G.hints.sparkle=true; toast('¡TOCA LOS VAULT POINTS!', 2600); }
   }
   for(let i=UI.sparkles.length-1;i>=0;i--){
     const s = UI.sparkles[i];

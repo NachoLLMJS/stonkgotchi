@@ -7,13 +7,18 @@ function ratePerMs(hoursToEmpty){ return 100/(hoursToEmpty*3600*1000); }
 const R_HUNGER = ratePerMs(5);
 const R_ENERGY = ratePerMs(16);
 const R_SLEEPREGEN = ratePerMs(6);
+function vaultActive(moduleId,at=Date.now()){
+  const api=window.STONK_VAULT;
+  if(api && typeof api.isActiveAt==='function') return api.isActiveAt(moduleId,at);
+  return !!(api && typeof api.isActive==='function' && api.isActive(moduleId));
+}
 function energyRate(p){ return R_ENERGY * (p.line==='marea'?0.8:1) * (p.trait==='DORMILON'?1.15:1) * (WEATHER.kind==='wind'?1.1:1) * (G.relics && G.relics.caracola?0.9:1); }
 /* en la huerta picotean: el hambre baja más despacio */
-function hungerRate(p){ return R_HUNGER * (p.trait==='GLOTON'?1.25:1) * ((p.zone||'prado')==='huerta'?0.8:1); }
+function hungerRate(p,at=Date.now()){ return R_HUNGER * (p.trait==='GLOTON'?1.25:1) * ((p.zone||'prado')==='huerta'?0.8:1) * (vaultActive('feeder',at)?0.85:1); }
 function poopEvery(p){ return POOP_EVERY * (p.line==='petrea'?1.6:1); }
 function hygMult(p){ return p.line==='petrea'?0.7:1; }
 /* en el parque se aburren menos: el ánimo dura más */
-function happyDecayRate(p){ return ratePerMs(6) * (1 - 0.1*G.up.juguete) * (p.trait==='JUGUETON'?0.8:1) * weatherHappyMult(p) * (G.relics && G.relics.corona?0.9:1) * (G.toys && G.toys.cometa && WEATHER.kind==='wind' ? 0.65 : 1) * (p.sick?1.5:1) * ((p.zone||'prado')==='parque'?0.8:1); }
+function happyDecayRate(p,at=Date.now()){ return ratePerMs(6) * (1 - 0.1*G.up.juguete) * (p.trait==='JUGUETON'?0.8:1) * weatherHappyMult(p) * (G.relics && G.relics.corona?0.9:1) * (G.toys && G.toys.cometa && WEATHER.kind==='wind' ? 0.65 : 1) * (p.sick?1.5:1) * ((p.zone||'prado')==='parque'?0.8:1) * (vaultActive('care',at)?0.85:1); }
 function petName(p){ return p.nick || (p.form==='grimo' ? 'GRIMO' : (p.stage===STAGES.EGG ? 'HUEVO' : LINES[p.line].names[p.form||'babyA'])); }
 function sleepRegen(p){ return R_SLEEPREGEN * (1 + 0.15*G.up.cama) * (p.trait==='DORMILON'?1.3:1) * (p.sick?0.6:1); }
 function gardenMult(){ return 1 + 0.25*G.up.jardin + (G.relics && G.relics.seta ? 0.1 : 0); }
@@ -28,9 +33,9 @@ function petRate(p){
   if(p.sleeping) r *= 0.3;
   return r;
 }
-function motaRate(){
+function motaRate(at=Date.now()){
   let r=0; for(const p of G.pets) r += petRate(p);
-  return r * boostMult() * (G.relics && G.relics.trebol ? 1.05 : 1) * (1 + Math.min(0.1, (G.bond||0)*0.002));
+  return r * boostMult() * (G.relics && G.relics.trebol ? 1.05 : 1) * (1 + Math.min(0.1, (G.bond||0)*0.002)) * (vaultActive('yield',at)?1.10:1);
 }
 function tapYield(){ return Math.max(1, Math.round((1 + G.up.cosecha) * legacyMult())) + (G.relics && G.relics.campanilla ? 1 : 0); }
 function gainMotas(n, x, y){

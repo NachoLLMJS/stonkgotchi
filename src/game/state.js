@@ -65,6 +65,8 @@ function freshGame(){
     zone:'prado', zonesOpen:{},
     combos3:0, parries:0, harvests:0, items:[], criaNextAt:0, slowRing:false,
     poops:[], lastSeen:Date.now(),
+    profileName:'',
+    stockVault:{version:1,locks:[]},
     hints:{sparkle:false, shop:false}
   };
 }

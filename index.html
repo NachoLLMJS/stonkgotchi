@@ -6,55 +6,80 @@
 <meta name="theme-color" content="#11172c">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
-<meta name="description" content="BITXO — mascota virtual + idle incremental en pixel art. Cuida a tu bicho, cosecha motas, mejora su prado y asciéndelo al cielo para fundar una dinastía.">
-<meta property="og:title" content="BITXO">
-<meta property="og:description" content="Mascota virtual + idle incremental en pixel art, directa en tu navegador.">
+<meta name="description" content="STONKGOTCHI — virtual pet, Vault strategy and progression in a BNB Chain pixel world.">
+<meta property="og:title" content="STONKGOTCHI">
+<meta property="og:description" content="Raise your creature, activate Vault modules and progress through a BNB Chain pixel world.">
 <meta property="og:type" content="website">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-title" content="BITXO">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥚</text></svg>">
+<meta name="apple-mobile-web-app-title" content="STONKGOTCHI">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔶</text></svg>">
 <title>STONKGOTCHI</title>
-<link rel="stylesheet" href="css/style.css?v=20260704-2200">
+<link rel="stylesheet" href="css/style.css?v=20260808-fullscreen-entry-5">
 </head>
-<body>
+<body class="is-entry">
+<section class="entry-gate" id="entry-gate" aria-label="Entrada a STONKGOTCHI">
+  <canvas class="entry-scene" id="entry-scene" aria-hidden="true"></canvas>
+  <div class="entry-panel">
+    <h1>STONKGOTCHI</h1>
+    <p class="entry-tagline">TOKENIZED STOCKS PET WORLD</p>
+    <div class="entry-loading" id="entry-loading" role="progressbar" aria-label="Preparando STONKGOTCHI" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="entry-loading-copy"><span>PREPARANDO EL MUNDO</span><span id="entry-percent">0%</span></div>
+      <div class="entry-track"><span id="entry-progress"></span></div>
+    </div>
+    <form class="entry-profile" id="entry-profile" hidden>
+      <label for="profile-name">NOMBRE DE PERFIL</label>
+      <input id="profile-name" name="profileName" type="text" minlength="2" maxlength="64" autocomplete="nickname" spellcheck="false" aria-describedby="profile-help" placeholder="ESCRIBE TU NOMBRE">
+      <p id="profile-help">PERFIL LOCAL · ONCHAIN / DB POR DEFINIR</p>
+      <button id="entry-play" type="submit" disabled>JUGAR</button>
+    </form>
+  </div>
+</section>
 <div id="wrap">
   <canvas id="ambient" aria-hidden="true"></canvas>
-  <canvas id="cv" aria-label="BITXO, juego de mascota virtual"></canvas>
+  <canvas id="cv" aria-label="STONKGOTCHI, BNB Chain virtual pet game"></canvas>
 </div>
 
+<aside class="chain-dock" aria-label="BNB Chain, Stocks Vault y cuenta oficial de X">
+  <canvas id="chain-dock-art" width="122" height="68" aria-hidden="true"></canvas>
+  <button class="dock-hit dock-hit-vault" id="vault-open" type="button" aria-controls="cv" aria-label="Abrir Stocks Vault dentro del juego"></button>
+  <a class="dock-hit dock-hit-x is-disabled" id="social-x" aria-disabled="true" tabindex="-1" title="Cuenta oficial de X proximamente" aria-label="Cuenta oficial de X proximamente"></a>
+</aside>
+
 <!-- Orden de carga = grafo de dependencias (sin build step; ver ARCHITECTURE.md) -->
-<script src="src/config.js?v=20260704-2200"></script>
-<script src="src/core/canvas.js?v=20260704-2200"></script>
-<script src="src/core/font.js?v=20260704-2200"></script>
-<script src="src/core/color.js?v=20260704-2200"></script>
-<script src="src/core/sprites.js?v=20260704-2200"></script>
-<script src="src/data/species.js?v=20260704-2200"></script>
-<script src="src/data/pixelart.js?v=20260704-2200"></script>
-<script src="src/data/content.js?v=20260704-2200"></script>
-<script src="src/audio/engine.js?v=20260704-2200"></script>
-<script src="src/audio/sfx.js?v=20260704-2200"></script>
-<script src="src/audio/ambience.js?v=20260704-2200"></script>
-<script src="src/audio/music.js?v=20260704-2200"></script>
-<script src="src/game/state.js?v=20260704-2200"></script>
-<script src="src/game/storage.js?v=20260704-2200"></script>
-<script src="src/game/world.js?v=20260704-2200"></script>
-<script src="src/game/economy.js?v=20260704-2200"></script>
-<script src="src/game/ui.js?v=20260704-2200"></script>
-<script src="src/game/offline.js?v=20260704-2200"></script>
-<script src="src/game/sim.js?v=20260704-2200"></script>
-<script src="src/game/actions.js?v=20260704-2200"></script>
-<script src="src/game/minigames.js?v=20260704-2200"></script>
-<script src="src/game/battle.js?v=20260704-2200"></script>
-<script src="src/render/scene.js?v=20260704-2200"></script>
-<script src="src/render/pets.js?v=20260704-2200"></script>
-<script src="src/render/hud.js?v=20260704-2200"></script>
-<script src="src/render/fx.js?v=20260704-2200"></script>
-<script src="src/render/minigames.js?v=20260704-2200"></script>
-<script src="src/input.js?v=20260704-2200"></script>
-<script src="src/main.js?v=20260704-2200"></script>
+<script src="src/config.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/core/canvas.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/core/font.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/core/color.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/core/sprites.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/data/species.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/data/pixelart.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/data/content.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/audio/engine.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/audio/sfx.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/audio/ambience.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/audio/music.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/state.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/storage.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/world.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/economy.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/ui.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/offline.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/sim.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/actions.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/minigames.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/game/battle.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/render/scene.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/render/pets.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/render/hud.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/render/fx.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/render/minigames.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/input.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/local-vault.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/local-entry.js?v=20260808-fullscreen-entry-5"></script>
+<script src="src/main.js?v=20260808-fullscreen-entry-5"></script>
 <script src="src/local-fullscreen.js?v=1"></script>
 </body>
 </html>

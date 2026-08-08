@@ -19,7 +19,7 @@ function doFeed(fi){
   const F = FOODS[fi];
   if(!F) return;
   if(p.sleeping){ toast('SHHH... DUERME'); return; }
-  if(G.motas < F.cost){ toast('SIN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < F.cost){ toast('SIN VP'); SFX.nope(); return; }
   if(F.hunger>=30 && p.hunger>92 && !F.gamble){ toast('NO TIENE HAMBRE'); SFX.nope(); return; }
   G.motas -= F.cost;
   G.foodsTried[F.id] = true;
@@ -82,7 +82,7 @@ function trainEffect(kind){
   if(p.sick){ toast('ESTA MALITO: DALE MEDICINA'); SFX.nope(); return null; }
   if(p.energy<15){ toast('SIN ENERGIA'); SFX.nope(); return null; }
   const cost = trainCost(p, kind);
-  if(G.motas < cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return null; }
+  if(G.motas < cost){ toast('FALTAN VP'); SFX.nope(); return null; }
   G.motas -= cost;
   p.energy = Math.max(0, p.energy-15);
   const gain = TRAIN_AFFINITY[p.line]===kind ? 2 : 1;
@@ -100,7 +100,7 @@ function trainEffect(kind){
 function buyToy(i){
   const T = TOYS[i];
   if(G.toys[T.id]){ toast('YA LO TIENES'); return; }
-  if(G.motas < T.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < T.cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= T.cost;
   G.toys[T.id] = true;
   if(T.id==='caja') G.cajaReadyAt = Date.now();
@@ -130,7 +130,7 @@ function tapSendero(){
   UI.mode = 'parqueConfirm'; SFX.tap(); vibrate(10);
 }
 function openParque(){
-  if(G.motas < ZONES.parque.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); UI.mode='main'; return; }
+  if(G.motas < ZONES.parque.cost){ toast('FALTAN VP'); SFX.nope(); UI.mode='main'; return; }
   G.motas -= ZONES.parque.cost;
   G.zonesOpen.parque = true;
   UI.mode = 'main';
@@ -186,7 +186,7 @@ function tapSenderoHuerta(){
   UI.mode = 'huertaConfirm'; SFX.tap(); vibrate(10);
 }
 function openHuerta(){
-  if(G.motas < ZONES.huerta.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); UI.mode='main'; return; }
+  if(G.motas < ZONES.huerta.cost){ toast('FALTAN VP'); SFX.nope(); UI.mode='main'; return; }
   G.motas -= ZONES.huerta.cost;
   G.zonesOpen.huerta = true;
   UI.mode = 'main';
@@ -344,7 +344,7 @@ function buyUpgrade(i){
   const lvl = G.up[item.id];
   if(lvl >= item.max){ toast('AL MAXIMO'); return; }
   const cost = upCost(item, lvl);
-  if(G.motas < cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= cost;
   G.up[item.id]++;
   UI.shopFlash[item.id] = performance.now();
@@ -431,7 +431,7 @@ function buhoOffers(){
   const rl = relicRoll();
   if(rl && Math.random()<0.4) offers.push({kind:'relic', id:rl.id, name:rl.name, desc:rl.desc, cost:500});
   const pool = [
-    {kind:'boost',  id:'boost',  name:'BOTIN X1.5',   desc:'30 MIN DE MOTAS',   cost:100},
+    {kind:'boost',  id:'boost',  name:'BOTIN X1.5',   desc:'30 MIN DE VP',   cost:100},
     {kind:'xp',     id:'xp',     name:'POCION SABIA', desc:'+60 XP AL INSTANTE',cost:90},
     {kind:'siesta', id:'siesta', name:'CAFE DEL ALBA',desc:'PILAS AL MAXIMO',   cost:60},
     {kind:'festin', id:'festin', name:'FESTIN',       desc:'TODOS COMEN Y RIEN',cost:80},
@@ -448,7 +448,7 @@ function buyBuhoOffer(i){
   const o = G.buho && G.buho.offers[i];
   if(!o || o.sold){ SFX.tap(); return; }
   if(o.kind==='item' && (G.items||[]).length>=3){ toast('MOCHILA LLENA (3 HUECOS)'); SFX.nope(); return; }
-  if(G.motas < o.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < o.cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= o.cost; o.sold = true;
   if(o.kind==='item'){ G.items = G.items||[]; G.items.push(o.id); toast('A LA MOCHILA: '+o.name, 2400); }
   else if(o.kind==='hat'){ G.hats[o.id] = true; AP().hat = o.id; toast('¡GORRO NUEVO PUESTO!'); }
@@ -541,7 +541,7 @@ function tapHat(i){
   }
   if(H.buhoOnly){ toast('SOLO LO VENDE EL BUHONERO'); SFX.nope(); return; }
   if(H.towerOnly){ toast('SOLO LA TORRE LO OTORGA'); SFX.nope(); return; }
-  if(G.motas < H.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < H.cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= H.cost; G.hats[H.id] = true; p.hat = H.id;
   UI.shopFlash[H.id] = performance.now();
   toast('¡GORRO NUEVO PUESTO!'); SFX.buy(); vibrate(25); saveGame();
@@ -551,7 +551,7 @@ function tapHat(i){
 function buyDisco(i){
   const D = DISCOS[i];
   if(G.discos[D.id]){ return false; }
-  if(G.motas < D.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return true; }
+  if(G.motas < D.cost){ toast('FALTAN VP'); SFX.nope(); return true; }
   G.motas -= D.cost;
   G.discos[D.id] = true; G.disco = D.id;
   toast('¡DISCO NUEVO! DALE AL BAILE');
@@ -576,7 +576,7 @@ function previewDisco(i){
   SFX.tap();
 }
 function buyGame(gkey, cost){
-  if(G.motas < cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= cost;
   G.games[gkey] = true;
   toast('¡JUEGO NUEVO DESBLOQUEADO!');
@@ -634,7 +634,7 @@ function towerEnter(){
     const mns = Math.ceil((G.towerNextAt-Date.now())/60000);
     toast('LA TORRE ABRE EN '+(mns>=60? Math.ceil(mns/60)+'H' : mns+'M')); SFX.nope(); return;
   }
-  if(G.motas < TOWER.fee){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < TOWER.fee){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= TOWER.fee;
   G.tower = {floor:1, php:null};
   saveGame();
@@ -749,7 +749,7 @@ const COST_MEDICINA = 30;
 function giveMedicine(){
   const p = AP();
   if(!p.sick){ toast('NO ESTA ENFERMO'); SFX.tap(); return; }
-  if(G.motas < COST_MEDICINA){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < COST_MEDICINA){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= COST_MEDICINA;
   p.sick = false; p.sickPenal = false;
   diaryLog(petName(p)+' SE CURO CON LA MEDICINA');
@@ -773,7 +773,7 @@ function tapDecor(i){
     }
     SFX.tap(); saveGame(); return;
   }
-  if(G.motas < D.cost){ toast('FALTAN MOTAS ✦'); SFX.nope(); return; }
+  if(G.motas < D.cost){ toast('FALTAN VP'); SFX.nope(); return; }
   G.motas -= D.cost;
   G.decor.owned[D.id] = true;
   if(D.kind==='flores') G.decor.flores = D.val;

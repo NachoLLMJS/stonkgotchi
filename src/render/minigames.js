@@ -295,7 +295,7 @@ function drawCatch(t, dt){
       if(it.y>170){ if(!it.bad) m.combo=0; m.items.splice(i,1); }
     }
     if(m.t>=m.end && m.items.length===0){
-      finishMg('LLUVIA DE MOTAS', m.score, m.score, 8+Math.round(m.score/2), m.score>=14);
+      finishMg('LLUVIA DE VP', m.score, m.score, 8+Math.round(m.score/2), m.score>=14);
     }
   }
   for(const it of m.items){
@@ -896,7 +896,7 @@ function drawPark(t, dt){
   /* cabecera */
   px(0,0,160,14,'rgba(14,16,48,0.6)');
   drawText('< VOLVER', 4, 4, '#ffffff');
-  drawTextC('GYM DEL PRADO', 84, 4, '#ffd94a');
+  drawTextC('BNB FORGE GYM', 84, 4, '#f3ba2f');
   drawText('✦'+fmt(G.motas), 126, 4, '#ffffff');
   drawParticles(dt);
 }
