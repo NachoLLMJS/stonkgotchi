@@ -1,0 +1,10 @@
+.git
+.github
+scripts
+qa
+docs
+*.md
+LICENSE
+ROADMAP.md
+ARCHITECTURE.md
+version.json
