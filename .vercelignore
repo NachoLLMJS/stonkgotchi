@@ -1,5 +1,11 @@
 .git
 .github
+.vercel
+.env*
+__pycache__
+*.pyc
+.DS_Store
+Thumbs.db
 scripts
 qa
 docs
