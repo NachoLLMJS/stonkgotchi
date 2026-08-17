@@ -19,7 +19,8 @@ function loadLocalization(stored=null){
   const document={
     documentElement:{lang:""},
     getElementById:id=>nodes.get(id)||null,
-    querySelector:selector=>selector==='label[for="profile-name"]'?label:null
+    querySelector:selector=>selector==='label[for="profile-name"]'?label:null,
+    createElement:()=>({getContext:()=>({font:"",measureText:text=>({width:Array.from(text).length*7.25})})})
   };
   const context=vm.createContext({
     window:{},document,
@@ -36,6 +37,7 @@ test("Chinese is the default and the dock toggle persists English",()=>{
   assert.equal(app.i18n.locale,"zh-CN");
   assert.equal(app.document.documentElement.lang,"zh-CN");
   assert.equal(app.i18n.translate("PREPARANDO EL MUNDO"),"正在准备世界");
+  assert.equal(app.i18n.logicalWidth("PREPARANDO EL MUNDO"),44);
   assert.equal(app.i18n.translate("TOCA FUERA PARA SALIR"),"点击外部退出");
   assert.equal(app.i18n.translate("SIMON"),"SIMON");
   assert.equal(app.i18n.translate("¡HA NACIDO!"),"宠物诞生了！");

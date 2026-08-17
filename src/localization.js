@@ -16,7 +16,7 @@
     ['COME MAS Y MEJOR','EATS MORE AND BETTER'],['PEGA UN 25% MAS','DEALS 25% MORE DAMAGE'],['DUERME DE LUJO','SLEEPS EXCELLENTLY'],['GANA MAS XP JUGANDO','EARNS MORE XP PLAYING'],['VP EN CALMA','VP WHILE CALM'],['APRENDE X2 DE CHISPAS','LEARNS X2 FROM SPARKS'],
     ['PRADERA','MEADOW'],['BRASA','EMBER'],['MAREA','TIDE'],['FUNGO','FUNGUS'],['PETREA','STONE'],['VOLTIO','VOLT'],['ASTRO','ASTRAL'],['CURIOSO','CURIOUS'],['GLOTON','GLUTTON'],['VALIENTE','BRAVE'],['DORMILON','SLEEPY'],['JUGUETON','PLAYFUL'],['TIMIDO','SHY'],
     ['TOKENIZED STOCKS PET WORLD','TOKENIZED STOCKS PET WORLD'],['PREPARANDO EL MUNDO','PREPARING THE WORLD'],['REUNIENDO MASCOTAS Y PAISAJE','GATHERING PETS AND SCENERY'],
-    ['NOMBRE DE PERFIL','PROFILE NAME'],['ESCRIBE TU NOMBRE','ENTER YOUR NAME'],['USA ENTRE 2 Y 16 CARACTERES','USE 2 TO 16 CHARACTERS'],['LOCAL - ONCHAIN/DB DESPUES','LOCAL - ONCHAIN/DB LATER'],['JUGAR','PLAY'],
+    ['NOMBRE DE PERFIL','PROFILE NAME'],['ESCRIBE TU NOMBRE','ENTER YOUR NAME'],['USA ENTRE 2 Y 16 CARACTERES','USE 2 TO 16 CHARACTERS'],['JUGAR','PLAY'],
     ['TOCA FUERA PARA SALIR','TAP OUTSIDE TO EXIT'],['TOCA PARA VOLVER','TAP TO RETURN'],['TOCA PARA SEGUIR','TAP TO CONTINUE'],['TOCA UN MODULO','TAP A MODULE'],['TOCA PARA BLOQUEAR','TAP TO LOCK'],['TOCA PARA RECUPERAR PRINCIPAL','TAP TO CLAIM PRINCIPAL'],
     ['SIMULACION LOCAL - SIN WALLET','LOCAL SIMULATION - NO WALLET'],['SIN FONDOS REALES NI CONTRATOS','NO REAL FUNDS OR CONTRACTS'],['PRINCIPAL COMPLETO AL VENCER','FULL PRINCIPAL AT MATURITY'],['PROXIMAMENTE','COMING SOON'],
     ['MIENTRAS NO ESTABAS','WHILE YOU WERE AWAY'],['VERSION NUEVA: TOCA','NEW VERSION: TAP'],['AUN ES UN HUEVO','STILL AN EGG'],['ESTA DE EXPEDICION','AWAY ON EXPEDITION'],['SHHH... DUERME','SHHH... SLEEPING'],
@@ -56,7 +56,7 @@
     ['COME MAS Y MEJOR','吃得更多，成长更快'],['PEGA UN 25% MAS','攻击伤害提高25%'],['DUERME DE LUJO','睡眠恢复效果更好'],['GANA MAS XP JUGANDO','游戏获得更多经验'],['VP EN CALMA','平静时获得更多VP'],['APRENDE X2 DE CHISPAS','从火花获得双倍成长'],
     ['PRADERA','草原系'],['BRASA','火焰系'],['MAREA','潮汐系'],['FUNGO','菌菇系'],['PETREA','岩石系'],['VOLTIO','雷电系'],['ASTRO','星辰系'],['CURIOSO','好奇'],['GLOTON','贪吃'],['VALIENTE','勇敢'],['DORMILON','爱睡'],['JUGUETON','爱玩'],['TIMIDO','害羞'],
     ['TOKENIZED STOCKS PET WORLD','代币化股票宠物世界'],['PREPARANDO EL MUNDO','正在准备世界'],['REUNIENDO MASCOTAS Y PAISAJE','正在召集宠物与场景'],
-    ['NOMBRE DE PERFIL','玩家名称'],['ESCRIBE TU NOMBRE','输入你的名字'],['USA ENTRE 2 Y 16 CARACTERES','请输入2至16个字符'],['LOCAL - ONCHAIN/DB DESPUES','本地模式 · 链上/数据库稍后开放'],['JUGAR','开始游戏'],
+    ['NOMBRE DE PERFIL','玩家名称'],['ESCRIBE TU NOMBRE','输入你的名字'],['USA ENTRE 2 Y 16 CARACTERES','请输入2至16个字符'],['JUGAR','开始游戏'],
     ['TOCA FUERA PARA SALIR','点击外部退出'],['TOCA PARA VOLVER','点击返回'],['TOCA PARA SEGUIR','点击继续'],['TOCA UN MODULO','点击一个模块'],['TOCA PARA BLOQUEAR','点击锁定'],['TOCA PARA RECUPERAR PRINCIPAL','点击取回本金'],
     ['SIMULACION LOCAL - SIN WALLET','本地模拟 · 无需钱包'],['SIN FONDOS REALES NI CONTRATOS','无真实资金或合约'],['PRINCIPAL COMPLETO AL VENCER','到期返还全部本金'],['PROXIMAMENTE','即将推出'],
     ['MIENTRAS NO ESTABAS','离线期间'],['VERSION NUEVA: TOCA','发现新版本：点击更新'],['AUN ES UN HUEVO','它还是一颗蛋'],['ESTA DE EXPEDICION','正在远征'],['SHHH... DUERME','嘘……正在睡觉'],
@@ -141,6 +141,16 @@
   }
   function logicalWidth(value){
     const out=translate(value);
+    if(locale==='zh-CN'&&document&&typeof document.createElement==='function'){
+      if(!logicalWidth.context){
+        const canvas=document.createElement('canvas');
+        logicalWidth.context=canvas.getContext('2d');
+      }
+      if(logicalWidth.context){
+        logicalWidth.context.font='bold 7px "Microsoft YaHei","Noto Sans SC",sans-serif';
+        return Math.ceil(logicalWidth.context.measureText(out).width);
+      }
+    }
     let width=0;
     for(const ch of Array.from(out)) width+=(/[\u3400-\u9fff\uf900-\ufaff]/.test(ch)?7:4);
     return Math.max(0,width-1);
