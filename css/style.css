@@ -152,6 +152,31 @@ body.is-entry .chain-dock{display:none}
 .entry-profile{position:fixed;inset:0;pointer-events:none}
 .entry-profile input,.entry-profile button{position:fixed!important;margin:0!important;padding:0!important;min-height:0!important;border:0!important;background:transparent!important;box-shadow:none!important;color:transparent!important;caret-color:transparent!important;opacity:.001!important;pointer-events:auto!important;font-size:16px!important}
 .entry-profile input:focus,.entry-profile input[aria-invalid="true"],.entry-profile button:not(:disabled):active{box-shadow:none!important;transform:none!important}
+.entry-contract{
+  position:fixed;
+  z-index:32;
+  left:50%;
+  bottom:max(16px,env(safe-area-inset-bottom));
+  width:min(620px,calc(100vw - 20px));
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:10px 12px 9px;
+  border:3px solid #1a1428;
+  background:#f6efe0;
+  color:#1a1428;
+  box-shadow:0 5px 0 rgba(26,20,40,.4),inset 0 -4px 0 #7ac74f;
+  font:900 12px/1.3 "Courier New",ui-monospace,monospace;
+  letter-spacing:.35px;
+  pointer-events:auto;
+}
+.entry-contract span{color:#6f6878;letter-spacing:1px}
+.entry-contract code{font:inherit;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text}
+@media (max-width:520px){
+  .entry-contract{gap:7px;padding:8px 9px 7px;font-size:10px}
+}
 
 /* The external controls are drawn on a tiny canvas with the game's own
    3x5 bitmap font. Transparent semantic hit areas sit above that artwork. */
