@@ -20,7 +20,7 @@
 
   function pixel(x,y,w,h,col){ c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h)); }
   function text(s,x,y,col='#1a1428',scale=1){ drawTextAt(c,String(s),Math.round(x),Math.round(y),col,scale); }
-  function textWidth(s,scale=1){ return Math.max(0,(String(s).length*4-1)*scale); }
+  function textWidth(s,scale=1){ return (window.STONK_I18N?window.STONK_I18N.logicalWidth(s):Math.max(0,String(s).length*4-1))*scale; }
   function textC(s,x,y,col='#1a1428',scale=1){ text(s,x-textWidth(s,scale)/2,y,col,scale); }
 
   function panel(x,y,w,h){
@@ -145,7 +145,7 @@
       pixel(caretX,inputRect.y+5,1,7,'#1a1428');
     }
     const valid=validName();
-    textC(touched&&!valid?'USA ENTRE 2 Y 16 CARACTERES':'LOCAL - ONCHAIN/DB DESPUES',p.x+p.w/2,p.y+70,touched&&!valid?'#e8574c':'#6f6878');
+    if(touched&&!valid) textC('USA ENTRE 2 Y 16 CARACTERES',p.x+p.w/2,p.y+70,'#e8574c');
     card(playRect.x,playRect.y,playRect.w,playRect.h,'#7ac74f',!valid);
     textC('JUGAR',playRect.x+playRect.w/2,playRect.y+6,valid?'#1a1428':'#6f6878');
   }

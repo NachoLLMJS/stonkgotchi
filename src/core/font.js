@@ -26,6 +26,12 @@ const FONT = {
  '♥':"101111111010000",'★':"010111010101000",'✦':"010111010000000"
 };
 function drawText(s, x, y, col){
+  if(window.STONK_I18N && window.STONK_I18N.locale==='zh-CN'){
+    s=window.STONK_I18N.translate(s);
+    ctx.save(); ctx.fillStyle=col; ctx.font='bold 7px "Microsoft YaHei","Noto Sans SC",sans-serif';
+    ctx.textBaseline='top'; ctx.fillText(s,Math.round(x),Math.round(y)-1); ctx.restore(); return;
+  }
+  if(window.STONK_I18N) s=window.STONK_I18N.translate(s);
   s = String(s).toUpperCase().replace(/¡/g,'!').replace(/¿/g,'?')
       .replace(/Á/g,'A').replace(/É/g,'E').replace(/Í/g,'I').replace(/Ó/g,'O').replace(/Ú/g,'U').replace(/Ñ/g,'N');
   for(let i=0;i<s.length;i++){
@@ -38,7 +44,7 @@ function drawText(s, x, y, col){
     }
   }
 }
-function textW(s){ return String(s).length*4 - 1; }
+function textW(s){ return window.STONK_I18N ? window.STONK_I18N.logicalWidth(s) : String(s).length*4 - 1; }
 function drawTextC(s, cx, y, col){ drawText(s, Math.round(cx - textW(s)/2), y, col); }
 function fmt(n){
   n = Math.floor(n);
@@ -50,6 +56,12 @@ function fmt(n){
 
 /* dibuja texto con la fuente 3x5 en OTRO canvas, a la escala pedida */
 function drawTextAt(g2, s2, x, y, col, sc){
+  if(window.STONK_I18N && window.STONK_I18N.locale==='zh-CN'){
+    s2=window.STONK_I18N.translate(s2);
+    g2.save(); g2.fillStyle=col; g2.font='bold '+(7*sc)+'px "Microsoft YaHei","Noto Sans SC",sans-serif';
+    g2.textBaseline='top'; g2.fillText(s2,Math.round(x),Math.round(y)-sc); g2.restore(); return;
+  }
+  if(window.STONK_I18N) s2=window.STONK_I18N.translate(s2);
   s2 = String(s2).toUpperCase().replace(/¡/g,'!').replace(/¿/g,'?')
       .replace(/Á/g,'A').replace(/É/g,'E').replace(/Í/g,'I').replace(/Ó/g,'O').replace(/Ú/g,'U').replace(/Ñ/g,'N');
   g2.fillStyle = col;

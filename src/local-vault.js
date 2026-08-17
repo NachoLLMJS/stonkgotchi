@@ -14,7 +14,7 @@
 
   const dockCanvas = document.getElementById('chain-dock-art');
   const dockCtx = dockCanvas.getContext('2d');
-  const openButton = document.getElementById('vault-open');
+  const languageButton = document.getElementById('language-toggle');
   const socialLink = document.getElementById('social-x');
 
   function validLock(lock){
@@ -166,6 +166,13 @@
     dockPx(x,y,10,10,'#3b3552'); dockPx(x+1,y+1,8,8,'#f6efe0');
     dockPx(x+3,y+3,4,4,'#ffd94a'); dockPx(x+4,y+2,2,6,'#8a6a10'); dockPx(x+2,y+4,6,2,'#8a6a10');
   }
+  function dockLanguageLabel(x,y){
+    if(window.STONK_I18N && window.STONK_I18N.locale==='en'){
+      dockCtx.save(); dockCtx.fillStyle='#1a1428';
+      dockCtx.font='bold 7px "Microsoft YaHei","Noto Sans SC",sans-serif'; dockCtx.textBaseline='top';
+      dockCtx.fillText('中文',x,y); dockCtx.restore();
+    }else drawTextAt(dockCtx,'ENGLISH',x,y,'#1a1428',1);
+  }
   function dockStatus(){
     const rows=view();
     const claim=rows.filter(row=>row.claimable).length;
@@ -182,20 +189,18 @@
     dockCtx.clearRect(0,0,dockCanvas.width,dockCanvas.height);
     if(mobile){
       dockCard(0,0,24,26,'#3b3552','#ffd94a'); dockBnbMark(10,10);
-      dockCard(27,0,67,26,'#f6efe0','#f0a04b'); dockVaultIcon(31,5);
-      drawTextAt(dockCtx,'STOCKS VAULT',44,5,'#1a1428',1);
-      const compactStatus=dockStatus()==='3 MODULOS LISTOS'?'3 LISTOS':dockStatus();
-      drawTextAt(dockCtx,compactStatus,44,14,'#8a6a10',1);
-      dockCard(97,0,25,26,'#d0c8b0','#8a6ae8');
-      drawTextAt(dockCtx,'X',106,6,'#3b3552',1); drawTextAt(dockCtx,'PRONTO',98,15,'#6f6878',1);
+      dockCard(27,0,67,26,'#f6efe0','#7ac74f');
+      drawTextAt(dockCtx,'LANG',32,5,'#6f6878',1); dockLanguageLabel(53,13);
+      dockCard(97,0,25,26,'#f6efe0','#8a6ae8');
+      drawTextAt(dockCtx,'X',106,6,'#3b3552',1); drawTextAt(dockCtx,'GO',103,15,'#6f6878',1);
       return;
     }
     dockCard(0,0,122,20,'#3b3552','#ffd94a'); dockBnbMark(10,7);
     drawTextAt(dockCtx,'BNB CHAIN',21,4,'#ffe9a8',1); drawTextAt(dockCtx,'VAULT YARD',21,12,'#d8d4e8',1);
-    dockCard(0,23,122,21,'#f6efe0','#f0a04b'); dockVaultIcon(6,28);
-    drawTextAt(dockCtx,'STOCKS VAULT',22,27,'#1a1428',1); drawTextAt(dockCtx,dockStatus(),22,35,'#8a6a10',1);
-    dockCard(0,47,122,21,'#d0c8b0','#8a6ae8');
-    drawTextAt(dockCtx,'X',8,53,'#3b3552',1); drawTextAt(dockCtx,'X PRONTO',22,51,'#3b3552',1); drawTextAt(dockCtx,'CUENTA OFICIAL',22,59,'#6f6878',1);
+    dockCard(0,23,122,21,'#f6efe0','#7ac74f');
+    drawTextAt(dockCtx,'LANGUAGE',8,27,'#6f6878',1); dockLanguageLabel(70,34);
+    dockCard(0,47,122,21,'#f6efe0','#8a6ae8');
+    drawTextAt(dockCtx,'X',8,53,'#3b3552',1); drawTextAt(dockCtx,'@STONKGOTCHI',22,51,'#3b3552',1); drawTextAt(dockCtx,'CUENTA OFICIAL',22,59,'#6f6878',1);
   }
 
   function configureSocial(){
@@ -203,7 +208,7 @@
     if(typeof url==='string' && /^https:\/\/(x\.com|twitter\.com)\/[A-Za-z0-9_]+\/?$/i.test(url)){
       socialLink.href=url; socialLink.target='_blank'; socialLink.rel='noopener noreferrer';
       socialLink.removeAttribute('aria-disabled'); socialLink.removeAttribute('tabindex');
-      socialLink.classList.remove('is-disabled'); socialLink.title='Abrir la cuenta oficial de STONKGOTCHI';
+      socialLink.classList.remove('is-disabled');
     }else socialLink.addEventListener('click',event=>event.preventDefault());
   }
 
@@ -211,12 +216,14 @@
     isActive,isActiveAt,isClaimable,position,view,tapModule,lockModule,claimModule,remainingText
   });
 
-  openButton.addEventListener('click',()=>{
-    if(!G) return;
-    UI.mode='vault'; SFX.tap();
+  languageButton.addEventListener('click',()=>{
+    window.STONK_I18N.toggle();
+    if(typeof SFX!=='undefined') SFX.tap();
     if(!navigator.userActivation || navigator.userActivation.isActive) vibrate(10);
+    renderDock();
   });
   configureSocial(); renderDock();
+  addEventListener('stonk-languagechange',renderDock);
   addEventListener('resize',renderDock,{passive:true});
   setInterval(renderDock,1000);
 })();

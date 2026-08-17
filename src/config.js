@@ -25,7 +25,7 @@ let UPDATE_READY = false;
 /* STONKGOTCHI local integration layer. Social stays disabled until the
    project has an official account; Vault assets remain local VP only. */
 const STONKGOTCHI_CONFIG = Object.freeze({
-  socialXUrl: '',
+  socialXUrl: 'https://x.com/StonkGotchi',
   vaultLockMs: 7*24*60*60*1000
 });
 window.STONK_VAULT = { isActive:()=>false };

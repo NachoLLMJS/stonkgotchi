@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="STONKGOTCHI">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔶</text></svg>">
 <title>STONKGOTCHI</title>
-<link rel="stylesheet" href="css/style.css?v=20260808-fullscreen-entry-6">
+<link rel="stylesheet" href="css/style.css?v=20260817-zh-en-x-4">
 </head>
 <body class="is-entry">
 <section class="entry-gate" id="entry-gate" aria-label="Entrada a STONKGOTCHI">
@@ -32,7 +32,7 @@
     <form class="entry-profile" id="entry-profile" hidden>
       <label for="profile-name">NOMBRE DE PERFIL</label>
       <input id="profile-name" name="profileName" type="text" minlength="2" maxlength="64" autocomplete="nickname" spellcheck="false" aria-describedby="profile-help" placeholder="ESCRIBE TU NOMBRE">
-      <p id="profile-help">PERFIL LOCAL · ONCHAIN / DB POR DEFINIR</p>
+      <p id="profile-help"></p>
       <button id="entry-play" type="submit" disabled>JUGAR</button>
     </form>
   </div>
@@ -42,44 +42,46 @@
   <canvas id="cv" aria-label="STONKGOTCHI, BNB Chain virtual pet game"></canvas>
 </div>
 
-<aside class="chain-dock" aria-label="BNB Chain, Stocks Vault y cuenta oficial de X">
+<aside class="chain-dock" aria-label="BNB Chain、语言和STONKGOTCHI官方X账号">
   <canvas id="chain-dock-art" width="122" height="68" aria-hidden="true"></canvas>
-  <button class="dock-hit dock-hit-vault" id="vault-open" type="button" aria-controls="cv" aria-label="Abrir Stocks Vault dentro del juego"></button>
-  <a class="dock-hit dock-hit-x is-disabled" id="social-x" aria-disabled="true" tabindex="-1" title="Cuenta oficial de X proximamente" aria-label="Cuenta oficial de X proximamente"></a>
+  <button class="dock-hit dock-hit-vault" id="language-toggle" type="button" aria-label="切换为英语"></button>
+  <a class="dock-hit dock-hit-x" id="social-x" href="https://x.com/StonkGotchi" target="_blank" rel="noopener noreferrer" title="在X打开STONKGOTCHI官方账号" aria-label="在X打开STONKGOTCHI官方账号"></a>
 </aside>
 
 <!-- Orden de carga = grafo de dependencias (sin build step; ver ARCHITECTURE.md) -->
-<script src="src/config.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/core/canvas.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/core/font.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/core/color.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/core/sprites.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/data/species.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/data/pixelart.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/data/content.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/audio/engine.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/audio/sfx.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/audio/ambience.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/audio/music.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/state.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/storage.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/world.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/economy.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/ui.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/offline.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/sim.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/actions.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/minigames.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/game/battle.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/render/scene.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/render/pets.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/render/hud.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/render/fx.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/render/minigames.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/input.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/local-vault.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/local-entry.js?v=20260808-fullscreen-entry-6"></script>
-<script src="src/main.js?v=20260808-fullscreen-entry-6"></script>
+<script src="src/config.js?v=20260817-zh-en-x-4"></script>
+<script src="src/localization.generated.js?v=20260817-zh-en-x-4"></script>
+<script src="src/localization.js?v=20260817-zh-en-x-4"></script>
+<script src="src/core/canvas.js?v=20260817-zh-en-x-4"></script>
+<script src="src/core/font.js?v=20260817-zh-en-x-4"></script>
+<script src="src/core/color.js?v=20260817-zh-en-x-4"></script>
+<script src="src/core/sprites.js?v=20260817-zh-en-x-4"></script>
+<script src="src/data/species.js?v=20260817-zh-en-x-4"></script>
+<script src="src/data/pixelart.js?v=20260817-zh-en-x-4"></script>
+<script src="src/data/content.js?v=20260817-zh-en-x-4"></script>
+<script src="src/audio/engine.js?v=20260817-zh-en-x-4"></script>
+<script src="src/audio/sfx.js?v=20260817-zh-en-x-4"></script>
+<script src="src/audio/ambience.js?v=20260817-zh-en-x-4"></script>
+<script src="src/audio/music.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/state.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/storage.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/world.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/economy.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/ui.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/offline.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/sim.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/actions.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/minigames.js?v=20260817-zh-en-x-4"></script>
+<script src="src/game/battle.js?v=20260817-zh-en-x-4"></script>
+<script src="src/render/scene.js?v=20260817-zh-en-x-4"></script>
+<script src="src/render/pets.js?v=20260817-zh-en-x-4"></script>
+<script src="src/render/hud.js?v=20260817-zh-en-x-4"></script>
+<script src="src/render/fx.js?v=20260817-zh-en-x-4"></script>
+<script src="src/render/minigames.js?v=20260817-zh-en-x-4"></script>
+<script src="src/input.js?v=20260817-zh-en-x-4"></script>
+<script src="src/local-vault.js?v=20260817-zh-en-x-4"></script>
+<script src="src/local-entry.js?v=20260817-zh-en-x-4"></script>
+<script src="src/main.js?v=20260817-zh-en-x-4"></script>
 <script src="src/local-fullscreen.js?v=1"></script>
 </body>
 </html>

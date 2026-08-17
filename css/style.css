@@ -186,7 +186,6 @@ body.is-entry .chain-dock{display:none}
 }
 .dock-hit-vault{left:0;top:46px;width:244px;height:42px}
 .dock-hit-x{left:0;top:94px;width:244px;height:42px}
-.dock-hit-x.is-disabled{cursor:not-allowed}
 .dock-hit:focus-visible{outline:3px solid #ffffff;outline-offset:2px}
 .dock-hit-vault:active{transform:translate(2px,2px)}
 
