@@ -1,8 +1,8 @@
 "use strict";
-/* STONKGOTCHI bilingual UI. Chinese is the default; the dock toggles English. */
+/* STONKGOTCHI bilingual UI. English is the default; the dock toggles Chinese. */
 (function initLocalization(){
   const STORAGE_KEY='stonkgotchi-language-v1';
-  const DEFAULT_LOCALE='zh-CN';
+  const DEFAULT_LOCALE='en';
 
   const EN=[
     ['ABRACE AL RIVAL!','HUG YOUR OPPONENT!'],['O DESLIZA PARA ESQUIVAR','OR SWIPE TO DODGE'],['¡QUE NO TOQUE EL SUELO!','KEEP IT OFF THE GROUND!'],['¡REPETE LA SECUENCIA!','REPEAT THE SEQUENCE!'],['TOCA CON LA AGUJA EN LO DORADO','TAP WHEN THE NEEDLE IS GOLD'],['CLAVADO AL IMPACTO: ¡PARADA!','TAP ON IMPACT: STOP!'],
@@ -84,7 +84,7 @@
     ['AUN NO','暂时不'],['SI','是'],['NO','否'],['MAS','更多'],['PARA','用于'],['FUERA','外部'],['NUEVO','新'],['ABIERTO','已开放'],['ABIERTA','已开放'],['CUESTA','花费'],['FALTAN','还需'],['TODO','全部'],['NADIE','没有人'],['SOLO','独自']
   ];
 
-  function normalizeLocale(value){ return value==='en'?'en':DEFAULT_LOCALE; }
+  function normalizeLocale(value){ return value==='zh-CN'?'zh-CN':'en'; }
   let locale=DEFAULT_LOCALE;
   try{ locale=normalizeLocale(localStorage.getItem(STORAGE_KEY)); }catch(error){}
 
@@ -136,7 +136,11 @@
       out=replacePairs(out,CURATED[localeKey]);
       CACHE[localeKey].set(protectedSource,out);
     }
-    protectedValues.forEach((name,index)=>{ out=out.split('\uE000'+index+'\uE001').join(name); });
+    protectedValues.forEach((name,index)=>{
+      const marker='\uE000'+index+'\uE001';
+      if(locale==='en') out=out.replace(new RegExp('([A-Z0-9])'+marker,'g'),'$1 '+marker);
+      out=out.split(marker).join(name);
+    });
     return out;
   }
   function logicalWidth(value){
@@ -179,7 +183,7 @@
     dispatchEvent(new CustomEvent('stonk-languagechange',{detail:{locale}}));
     return locale;
   }
-  function toggle(){ return setLocale(locale==='en'?DEFAULT_LOCALE:'en'); }
+  function toggle(){ return setLocale(locale==='en'?'zh-CN':'en'); }
 
   window.STONK_I18N=Object.freeze({translate,logicalWidth,setLocale,toggle,get locale(){return locale;},defaultLocale:DEFAULT_LOCALE});
   applyDocument();

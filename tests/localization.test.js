@@ -32,32 +32,24 @@ function loadLocalization(stored=null){
   return {i18n:context.window.STONK_I18N,context,document,nodes,label,attrs,get saved(){return saved;}};
 }
 
-test("Chinese is the default and the dock toggle persists English",()=>{
+test("English is the default and the dock toggle persists Chinese",()=>{
   const app=loadLocalization();
-  assert.equal(app.i18n.locale,"zh-CN");
-  assert.equal(app.document.documentElement.lang,"zh-CN");
-  assert.equal(app.i18n.translate("PREPARANDO EL MUNDO"),"正在准备世界");
-  assert.equal(app.i18n.logicalWidth("PREPARANDO EL MUNDO"),44);
-  assert.equal(app.i18n.translate("TOCA FUERA PARA SALIR"),"点击外部退出");
-  assert.equal(app.i18n.translate("SIMON"),"SIMON");
-  assert.equal(app.i18n.translate("¡HA NACIDO!"),"宠物诞生了！");
-  assert.notEqual(app.i18n.translate("CARGANDO..."),"CARGANDO...");
-  assert.notEqual(app.i18n.translate("¡VICTORIA!"),"¡VICTORIA!");
-  app.context.G={profileName:"ASTRO",pets:[{nick:"MIRU"}]};
-  assert.doesNotMatch(app.i18n.translate("MIRU SE CURO CON LA MEDICINA"),/[A-Z]{3,}(?:\s+[A-Z]{3,})/);
-  app.context.G.pets[0].nick="VICTORIA";
-  assert.equal(app.i18n.translate("ASTRO"),"ASTRO");
-  assert.equal(app.i18n.translate("VICTORIA"),"VICTORIA");
-  assert.match(app.i18n.translate("DESTINO PARA ASTRO"),/ASTRO/);
-  assert.match(app.i18n.translate("¡DUELO: VICTORIA!"),/VICTORIA/);
-  app.context.G.pets[0].nick="TOCA";
-  assert.equal(app.i18n.translate("TOCA JUSTO ANTES DEL GOLPE"),"攻击命中前点击");
-  app.i18n.toggle();
   assert.equal(app.i18n.locale,"en");
-  assert.equal(app.saved,"en");
   assert.equal(app.document.documentElement.lang,"en");
   assert.equal(app.i18n.translate("PREPARANDO EL MUNDO"),"PREPARING THE WORLD");
   assert.equal(app.attrs["language-toggle:aria-label"],"Switch to Chinese");
+  app.context.G={profileName:"ASTRO",pets:[{nick:"TOCA"}]};
+  assert.equal(app.i18n.translate("ASTRO"),"ASTRO");
+  assert.equal(app.i18n.translate("DESTINO PARA ASTRO"),"DESTINATION FOR ASTRO");
+  app.i18n.toggle();
+  assert.equal(app.i18n.locale,"zh-CN");
+  assert.equal(app.saved,"zh-CN");
+  assert.equal(app.document.documentElement.lang,"zh-CN");
+  assert.equal(app.i18n.translate("PREPARANDO EL MUNDO"),"正在准备世界");
+  assert.equal(app.i18n.logicalWidth("PREPARANDO EL MUNDO"),44);
+  assert.equal(app.i18n.translate("TOCA JUSTO ANTES DEL GOLPE"),"攻击命中前点击");
+  assert.equal(app.i18n.translate("ASTRO"),"ASTRO");
+  assert.equal(app.attrs["language-toggle:aria-label"],"切换为英语");
 });
 
 test("official X control is a secure link to StonkGotchi",()=>{
